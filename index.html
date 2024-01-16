@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bad User Experience</title>
+    <title>Saftladen</title>
 </head>
 <body>
 
-    <!-- Button, der bei Klick den Text ändert -->
     <button id="slowBackend" style="font-size: 20px; padding: 10px 20px;">
         Slow Backend
     </button>
@@ -16,33 +15,47 @@
         Bad INP
     </button>
 
-    <!-- Container für die Anzeige des Ergebnisses -->
     <p id="result" style="margin-top: 20px; font-size: 20px;">
         Ergebnis wird hier angezeigt.
     </p>
 
     <script>
         document.getElementById('slowBackend').addEventListener('click', function() {
-            response = fetch("https://httpstat.us/200?sleep=1000")
+            fetch("https://httpstat.us/200?sleep=1000")
             .then(function(data) {
-              const resultElement = document.getElementById('result');
-              resultElement.textContent = 'Backend antwortet nach 1000 ms';
-              resultElement.style.color = 'red';            })
+                const resultElement = document.getElementById('result');
+                resultElement.textContent = 'Slow backend >= 1000 ms';
+                resultElement.style.color = 'red';
+            })
         });
 
         document.getElementById('inp').addEventListener('click', function() {
-          function runFor300ms() {
-              const startTime = Date.now();
-              while (Date.now() - startTime < 300) {
-                  // This loop will run for approximately 300 milliseconds
-              }
-          }
-          runFor300ms();
+            function runFor300ms() {
+                const startTime = Date.now();
+                while (Date.now() - startTime < 300) {
+                    // This loop will run for approximately 300 milliseconds
+                }
+            }
+            runFor300ms();
 
-          const resultElement = document.getElementById('result');
-          resultElement.textContent = 'Berechnung im Hintergrund dauert >= 300 ms';
-          resultElement.style.color = 'red';
+            const resultElement = document.getElementById('result');
+            resultElement.textContent = 'Long-Running task >= 300 ms';
+            resultElement.style.color = 'red';
         });
+    </script>
+
+    <script>
+        const observer = new PerformanceObserver(function(list) {
+            for (const entry of list.getEntries()) {
+                // Process long task notifications:
+                // report back for analytics and monitoring
+                console.log(entry);
+            }
+        });
+        // Register observer for previous and future long task notifications.
+        observer.observe({type: "longtask", buffered: true});
+        // Long script execution after this will result in queueing
+        // and receiving "longtask" entries in the observer.
     </script>
 
 </body>
