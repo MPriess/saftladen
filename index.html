@@ -27,7 +27,7 @@
             .then(function(data) {
               const resultElement = document.getElementById('result');
               resultElement.textContent = 'Backend antwortet nach 1000 ms';
-              resultElement.style.color = 'green';            })
+              resultElement.style.color = 'red';            })
         });
 
         document.getElementById('inp').addEventListener('click', function() {
@@ -36,15 +36,12 @@
               while (Date.now() - startTime < 300) {
                   // This loop will run for approximately 300 milliseconds
               }
-              console.log("Function has run for about 300 ms");
           }
-
           runFor300ms();
 
           const resultElement = document.getElementById('result');
-          resultElement.textContent = 'Warte auf Änderung...';
-          resultElement.textContent = 'Text wurde geändert!';
-          resultElement.style.color = 'green';
+          resultElement.textContent = 'Berechnung im Hintergrund dauert >= 300 ms';
+          resultElement.style.color = 'red';
         });
     </script>
 
