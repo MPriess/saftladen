@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bad User Experience</title>
+</head>
+<body>
+
+    <!-- Button, der bei Klick den Text ändert -->
+    <button id="slowBackend" style="font-size: 20px; padding: 10px 20px;">
+        Slow Backend
+    </button>
+
+    <button id="inp" style="font-size: 20px; padding: 10px 20px;">
+        Bad INP
+    </button>
+
+    <!-- Container für die Anzeige des Ergebnisses -->
+    <p id="result" style="margin-top: 20px; font-size: 20px;">
+        Ergebnis wird hier angezeigt.
+    </p>
+
+    <script>
+        document.getElementById('slowBackend').addEventListener('click', function() {
+            response = fetch("https://httpstat.us/200?sleep=1000")
+            .then(function(data) {
+              const resultElement = document.getElementById('result');
+              resultElement.textContent = 'Backend antwortet nach 1000 ms';
+              resultElement.style.color = 'green';            })
+        });
+
+        document.getElementById('inp').addEventListener('click', function() {
+          function runFor300ms() {
+              const startTime = Date.now();
+              while (Date.now() - startTime < 300) {
+                  // This loop will run for approximately 300 milliseconds
+              }
+              console.log("Function has run for about 300 ms");
+          }
+
+          runFor300ms();
+
+          const resultElement = document.getElementById('result');
+          resultElement.textContent = 'Warte auf Änderung...';
+          resultElement.textContent = 'Text wurde geändert!';
+          resultElement.style.color = 'green';
+        });
+    </script>
+
+</body>
+</html>
